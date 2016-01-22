@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 public class Main {
+
     public static void main(String[] args) {
         // add collections to test here
         List<Collection<String>> toBench = new ArrayList<Collection<String>>();
@@ -18,11 +19,7 @@ public class Main {
         for (int dataSize = 1; dataSize <= 6; ++dataSize) {
             System.out.println("Dataset size: " + dataSize);
 
-            //TODO: generate dataset
-            List<String> dataset = new ArrayList<String>();
-            for (int i = 0; i < Math.pow(26, dataSize); i++) {
-                dataset.add("dummy"); //FIXME
-            }
+            List<String> dataset = Alphabet.getAllPossibleWords(dataSize);
 
             for (Collection<String> c : toBench) {
                 Benchmark<String> b = new Benchmark<String>(c, dataset);
@@ -36,4 +33,5 @@ public class Main {
             System.out.println();
         }
     }
+
 }
