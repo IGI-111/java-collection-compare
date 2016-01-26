@@ -14,15 +14,15 @@ public class Alphabet {
         this.length = length;
         list = new ArrayList<String>();
     }
-    
+
     private void fillList() {
         for (int i = 0 ; i < length ; ++i) builder.append("a");
 
         do {
             list.add(builder.toString());
         } while(increment());
-    } 
-    
+    }
+
     private boolean increment() {
         int i = length-1;
         while(true){
@@ -42,5 +42,5 @@ public class Alphabet {
         alpha.fillList();
         Collections.shuffle(alpha.list);
         return alpha.list;
-    } 
+    }
 }
