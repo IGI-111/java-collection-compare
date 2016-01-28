@@ -1,6 +1,36 @@
 import java.util.Collection;
 
-public class BinarySearchTree<E extends Comparable<E>> extends Tree<E, Node<E>> implements Collection<E> {
+public class BinarySearchTree<E extends Comparable<E>> extends Tree<E> implements Collection<E> {
+
+    public class Node<E extends Comparable<E>> implements Tree.Node<E>{
+        private Tree.Node<E> left;
+        private Tree.Node<E> right;
+        private E val;
+        public Node(Tree.Node<E> left, Tree.Node<E> right, E val){
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+        public Tree.Node<E> getLeft(){
+            return left;
+        }
+        public Tree.Node<E> getRight(){
+            return right;
+        }
+        public E getVal(){
+            return val;
+        }
+        public void setLeft(Tree.Node<E> left){
+            this.left = left;
+        }
+        public void setRight(Tree.Node<E> right){
+            this.right = right;
+        }
+        public void setVal(E val){
+            this.val = val;
+        }
+
+    }
 
     public BinarySearchTree(){
         this.root = null;
@@ -12,12 +42,12 @@ public class BinarySearchTree<E extends Comparable<E>> extends Tree<E, Node<E>> 
     }
 
     public boolean add(E element){
-        Node<E> previous = null;
-        Node<E> current = root;
+        Tree.Node<E> previous = null;
+        Tree.Node<E> current = root;
         while(current != null){
-            Node<E> next = current.val.compareTo(element) < 0 ?
-                current.right :
-                current.left;
+            Tree.Node<E> next = current.getVal().compareTo(element) < 0 ?
+                current.getRight() :
+                current.getLeft();
             previous = current;
             current = next;
         }
@@ -28,10 +58,10 @@ public class BinarySearchTree<E extends Comparable<E>> extends Tree<E, Node<E>> 
             return true;
         }
 
-        if(previous.val.compareTo(element) < 0)
-            previous.right = new Node<E>(null, null, element);
+        if(previous.getVal().compareTo(element) < 0)
+            previous.setRight(new Node<E>(null, null, element));
         else
-            previous.left = new Node<E>(null, null, element);
+            previous.setLeft(new Node<E>(null, null, element));
         ++size;
         return true;
     }
@@ -40,44 +70,44 @@ public class BinarySearchTree<E extends Comparable<E>> extends Tree<E, Node<E>> 
         @SuppressWarnings("unchecked")
         Comparable<E> elt = (Comparable<E>) element;
         if (root == null) return false;
-        Node<E> parent = null;
-        Node<E> node = root;
-        while (node != null && !node.val.equals(element)) {
+        Tree.Node<E> parent = null;
+        Tree.Node<E> node = root;
+        while (node != null && !node.getVal().equals(element)) {
             parent = node;
-            if (elt.compareTo(node.val) < 0) node = node.left;
-            else node = node.right;
+            if (elt.compareTo(node.getVal()) < 0) node = node.getLeft();
+            else node = node.getRight();
         }
         if (node != null){
             if(parent == null)
                 root = removeRoot(node);
-            else if(node == parent.left)
-                parent.left = removeRoot(node);
+            else if(node == parent.getLeft())
+                parent.setLeft(removeRoot(node));
             else
-                parent.right = removeRoot(node);
+                parent.setRight(removeRoot(node));
             return true;
         }
         return false;
     }
 
-    private Node<E> removeRoot(Node<E> tree) {
-        if (tree.left == null) return tree.right;
-        if (tree.right == null) return tree.left;
-        Node<E> b = tree.left;
-        if (b.right == null) {
-            tree.val = b.val;
-            tree.left = b.left;
+    private Tree.Node<E> removeRoot(Tree.Node<E> tree) {
+        if (tree.getLeft() == null) return tree.getRight();
+        if (tree.getRight() == null) return tree.getLeft();
+        Tree.Node<E> b = tree.getLeft();
+        if (b.getRight() == null) {
+            tree.setVal(b.getVal());
+            tree.setLeft(b.getLeft());
         } else {
-            Node<E> p = penultimateSon(b);
-            Node<E> f = p.right;
-            tree.val = f.val;
-            p.right = f.left;
+            Tree.Node<E> p = penultimateSon(b);
+            Tree.Node<E> f = p.getRight();
+            tree.setVal(f.getVal());
+            p.setRight(f.getLeft());
         }
         return tree;
     }
 
-    private Node<E> penultimateSon(Node<E> tree)
+    private Tree.Node<E> penultimateSon(Tree.Node<E> tree)
     {
-        while (tree.right.right != null) tree = tree.right;
+        while (tree.getRight().getRight() != null) tree = tree.getRight();
         return tree;
     }
 

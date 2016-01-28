@@ -4,22 +4,30 @@ import java.util.Iterator;
 import java.util.Collection;
 import java.lang.reflect.Array;
 
-public abstract class Tree<E extends Comparable<E>, N extends Node<E>> extends AbstractCollection<E> {
+public abstract class Tree<E extends Comparable<E>> extends AbstractCollection<E> {
     protected Node<E> root;
     protected int size;
 
+    public interface Node<E extends Comparable<E>> {
+        public Node<E> getLeft();
+        public Node<E> getRight();
+        public E getVal();
+        public void setLeft(Node<E> left);
+        public void setRight(Node<E> right);
+        public void setVal(E val);
+    }
 
     protected class NodeIterator implements Iterator<E> {
         private Stack<Node<E>> stack;
         private E previous;
-        private Tree<E, N> tree;
-        public NodeIterator(Tree<E, N> tree){
+        private Tree<E> tree;
+        public NodeIterator(Tree<E> tree){
             this.tree = tree;
             this.stack = new Stack<Node<E>>();
             Node<E> next = tree.root;
             while (next != null) {
                 stack.push(next);
-                next = next.left;
+                next = next.getLeft();
             }
         }
         public boolean hasNext(){
@@ -28,15 +36,15 @@ public abstract class Tree<E extends Comparable<E>, N extends Node<E>> extends A
         public E next(){
             Node<E> next = stack.pop();
             Node<E> node = next;
-            next = next.right;
+            next = next.getRight();
 
             while (next != null) {
                 stack.push(next);
-                next = next.left;
+                next = next.getLeft();
             }
 
-            previous = node.val;
-            return node.val;
+            previous = node.getVal();
+            return node.getVal();
         }
         public void remove(){
             tree.remove(previous);
@@ -60,7 +68,7 @@ public abstract class Tree<E extends Comparable<E>, N extends Node<E>> extends A
         return modified;
     }
 
-    public boolean equals(Tree<E, N> tree){
+    public boolean equals(Tree<E> tree){
         if(this.size() != tree.size()) return false;
         Iterator<E> thisIterator = this.iterator();
         Iterator<E> treeIterator = tree.iterator();
@@ -74,9 +82,9 @@ public abstract class Tree<E extends Comparable<E>, N extends Node<E>> extends A
         @SuppressWarnings("unchecked")
         Comparable<E> elt = (Comparable<E>) element;
         Node<E> current = root;
-        while(current != null && current.val != elt){
-            if (elt.compareTo(current.val) < 0) current = current.left;
-            else current = current.right;
+        while(current != null && current.getVal() != elt){
+            if (elt.compareTo(current.getVal()) < 0) current = current.getLeft();
+            else current = current.getRight();
         }
         return current != null;
     }
