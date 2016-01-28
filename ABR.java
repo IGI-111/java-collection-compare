@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.AbstractCollection;
 import java.util.NoSuchElementException;
 
-public class ABR<E> extends AbstractCollection<E> implements Collection<E> {
-    private Node root;
+public class ABR<E extends Comparable<E>> extends AbstractCollection<E> implements Collection<E> {
+    private Node<E> root;
     private int size;
 
     private class Node<E> {
@@ -57,8 +57,31 @@ public class ABR<E> extends AbstractCollection<E> implements Collection<E> {
         addAll(collection);
     }
 
-    //public boolean add(E element){
-    //}
+    public boolean add(E element){
+        Node<E> previous = null;
+        Node<E> current = root;
+        while(current != null){
+            Node<E> next = current.val.compareTo(element) < 0 ?
+                current.right :
+                current.left;
+            previous = current;
+            current = next;
+        }
+
+        if(previous == null){
+            root = new Node<E>(null, null, element);
+            ++size;
+            return true;
+        }
+
+        if(previous.val.compareTo(element) < 0)
+            previous.right = new Node<E>(null, null, element);
+        else
+            previous.left = new Node<E>(null, null, element);
+        ++size;
+        return true;
+
+    }
 
     public int size(){
         return size;
