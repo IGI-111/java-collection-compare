@@ -19,33 +19,37 @@ public class ABR<E extends Comparable<E>> extends AbstractCollection<E> implemen
         }
     }
 
-    private class NodeIterator<E> implements Iterator<E> {
-        private Node<E> next;
+    private class NodeIterator implements Iterator<E> {
         private Stack<Node<E>> stack;
-        public NodeIterator(Node<E> root){
+        private E previous;
+        private ABR<E> tree;
+        public NodeIterator(ABR<E> tree){
             stack = new Stack();
+            Node<E> next = tree.root;
             while (next != null) {
                 stack.push(next);
                 next = next.left;
             }
         }
         public boolean hasNext(){
-            return next != null;
+            return !stack.empty();
         }
         public E next(){
+            Node<E> next = stack.pop();
+            Node<E> node = next;
+            next = next.right;
+
             while (next != null) {
                 stack.push(next);
                 next = next.left;
             }
 
-            next = stack.pop();
-            Node<E> node = next;
-            next = next.right;
-
+            previous = node.val;
             return node.val;
         }
-        //public void remove(){
-        //}
+        public void remove(){
+            tree.remove(previous);
+        }
     }
 
     public ABR(){
@@ -83,12 +87,34 @@ public class ABR<E extends Comparable<E>> extends AbstractCollection<E> implemen
 
     }
 
+    public boolean remove(E element){
+        //FIXME: TODO
+        return false;
+    }
+
     public int size(){
         return size;
     }
 
     public Iterator<E> iterator(){
-        return new NodeIterator<E>(root);
+        return new NodeIterator(this);
+    }
+
+    public static void main(String[] args) {
+        ABR<Integer> tree = new ABR<Integer>();
+        tree.add(2);
+        tree.add(0);
+        tree.add(3);
+        tree.add(1);
+        System.out.println(tree.root);
+        System.out.println(tree.root.left.val + " " + tree.root.right);
+        System.out.println(tree.root.left.left + " " + tree.root.left.right +
+                " " + tree.root.right.left + " " + tree.root.right.right);
+        System.out.println("added values");
+        for (Integer i : tree) {
+            System.out.println(i);
+        }
+
     }
 
 }
