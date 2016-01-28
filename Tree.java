@@ -70,14 +70,9 @@ public abstract class Tree<E extends Comparable<E>, N extends Node<E>> extends A
         return true;
     }
 
-    @SuppressWarnings("unchecked")
     public boolean contains(Object element){
-        Comparable<E> elt;
-        try{
-            elt = (Comparable<E>) element;
-        } catch(ClassCastException e){
-            return false;
-        }
+        @SuppressWarnings("unchecked")
+        Comparable<E> elt = (Comparable<E>) element;
         Node<E> current = root;
         while(current != null && current.val != elt){
             if (elt.compareTo(current.val) < 0) current = current.left;

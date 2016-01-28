@@ -36,14 +36,9 @@ public class BinarySearchTree<E extends Comparable<E>> extends Tree<E, Node<E>> 
         return true;
     }
 
-    @SuppressWarnings("unchecked")
     public boolean remove(Object element){
-        Comparable<E> elt;
-        try{
-            elt = (Comparable<E>) element;
-        } catch(ClassCastException e){
-            return false;
-        }
+        @SuppressWarnings("unchecked")
+        Comparable<E> elt = (Comparable<E>) element;
         if (root == null) return false;
         Node<E> parent = null;
         Node<E> node = root;
