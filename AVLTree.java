@@ -1,6 +1,6 @@
 import java.util.Collection;
 
-public class AVLTree<E extends Comparable<E>> extends Tree<E> implements Collection<E> {
+public class AVLTree<E extends Comparable<E>> extends Tree<E, AVLNode<E>> implements Collection<E> {
     public AVLTree(){
         this.root = null;
         this.size = 0;
@@ -13,7 +13,7 @@ public class AVLTree<E extends Comparable<E>> extends Tree<E> implements Collect
         //TODO
         return false;
     }
-    public boolean remove(E element){
+    public boolean remove(Object element){
         //TODO
         return false;
     }

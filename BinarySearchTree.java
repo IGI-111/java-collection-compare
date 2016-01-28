@@ -1,6 +1,6 @@
 import java.util.Collection;
 
-public class BinarySearchTree<E extends Comparable<E>> extends Tree<E> implements Collection<E> {
+public class BinarySearchTree<E extends Comparable<E>> extends Tree<E, Node<E>> implements Collection<E> {
 
     public BinarySearchTree(){
         this.root = null;
@@ -36,13 +36,20 @@ public class BinarySearchTree<E extends Comparable<E>> extends Tree<E> implement
         return true;
     }
 
-     public boolean remove(E element){
+    @SuppressWarnings("unchecked")
+    public boolean remove(Object element){
+        Comparable<E> elt;
+        try{
+            elt = (Comparable<E>) element;
+        } catch(ClassCastException e){
+            return false;
+        }
         if (root == null) return false;
         Node<E> parent = null;
         Node<E> node = root;
         while (node != null && !node.val.equals(element)) {
             parent = node;
-            if (element.compareTo(node.val) < 0) node = node.left;
+            if (elt.compareTo(node.val) < 0) node = node.left;
             else node = node.right;
         }
         if (node != null){
@@ -58,7 +65,6 @@ public class BinarySearchTree<E extends Comparable<E>> extends Tree<E> implement
     }
 
     private Node<E> removeRoot(Node<E> tree) {
-        System.out.println(tree.val);
         if (tree.left == null) return tree.right;
         if (tree.right == null) return tree.left;
         Node<E> b = tree.left;
@@ -73,33 +79,11 @@ public class BinarySearchTree<E extends Comparable<E>> extends Tree<E> implement
         }
         return tree;
     }
-    
-    private Node<E> penultimateSon(Node<E> tree) 
+
+    private Node<E> penultimateSon(Node<E> tree)
     {
         while (tree.right.right != null) tree = tree.right;
         return tree;
-    }
-
-    public static void main(String[] args) {
-        BinarySearchTree<Integer> tree = new BinarySearchTree<Integer>();
-        tree.add(2);
-        tree.add(0);
-        tree.add(3);
-        tree.add(1);
-        System.out.println(tree.remove(-4) ? "modified" : "not modified");
-        System.out.println(tree.remove(2) ? "modified" : "not modified");
-        System.out.println(tree.remove(0) ? "modified" : "not modified");
-        System.out.println(tree.remove(3) ? "modified" : "not modified");
-        System.out.println(tree.remove(1) ? "modified" : "not modified");
-        System.out.println(tree.root);
-        System.out.println(tree.root.left + " " + tree.root.right);
-        //System.out.println(tree.root.left.left + " " + tree.root.left.right +
-        //         " " + tree.root.right.left + " " + tree.root.right.right);
-        System.out.println("added values");
-        for (Integer i : tree) {
-            System.out.println(i);
-        }
-
     }
 
 }
