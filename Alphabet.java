@@ -25,8 +25,8 @@ public class Alphabet {
 
     private boolean increment() {
         int i = length-1;
-        while(true){
-            if(builder.charAt(i) == 'z'){
+        while(true) {
+            if(builder.charAt(i) == 'z') {
                 if (i == 0) return false;
                 builder.setCharAt(i, 'a');
                 --i;

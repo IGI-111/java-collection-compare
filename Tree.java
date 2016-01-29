@@ -21,7 +21,7 @@ public abstract class Tree<E extends Comparable<E>> extends AbstractCollection<E
         private Stack<Node<E>> stack;
         private E previous;
         private Tree<E> tree;
-        public NodeIterator(Tree<E> tree){
+        public NodeIterator(Tree<E> tree) {
             this.tree = tree;
             this.stack = new Stack<Node<E>>();
             Node<E> next = tree.root;
@@ -30,10 +30,10 @@ public abstract class Tree<E extends Comparable<E>> extends AbstractCollection<E
                 next = next.getLeft();
             }
         }
-        public boolean hasNext(){
+        public boolean hasNext() {
             return !stack.empty();
         }
-        public E next(){
+        public E next() {
             Node<E> next = stack.pop();
             Node<E> node = next;
             next = next.getRight();
@@ -46,12 +46,12 @@ public abstract class Tree<E extends Comparable<E>> extends AbstractCollection<E
             previous = node.getVal();
             return node.getVal();
         }
-        public void remove(){
+        public void remove() {
             tree.remove(previous);
         }
     }
 
-    public int size(){
+    public int size() {
         return size;
     }
 
@@ -68,7 +68,7 @@ public abstract class Tree<E extends Comparable<E>> extends AbstractCollection<E
         return modified;
     }
 
-    public boolean equals(Tree<E> tree){
+    public boolean equals(Tree<E> tree) {
         if(this.size() != tree.size()) return false;
         Iterator<E> thisIterator = this.iterator();
         Iterator<E> treeIterator = tree.iterator();
@@ -78,18 +78,18 @@ public abstract class Tree<E extends Comparable<E>> extends AbstractCollection<E
         return true;
     }
 
-    public boolean contains(Object element){
+    public boolean contains(Object element) {
         @SuppressWarnings("unchecked")
         Comparable<E> elt = (Comparable<E>) element;
         Node<E> current = root;
-        while(current != null && current.getVal() != elt){
+        while(current != null && current.getVal() != elt) {
             if (elt.compareTo(current.getVal()) < 0) current = current.getLeft();
             else current = current.getRight();
         }
         return current != null;
     }
 
-    public Iterator<E> iterator(){
+    public Iterator<E> iterator() {
         return new NodeIterator(this);
     }
 
