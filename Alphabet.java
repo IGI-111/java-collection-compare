@@ -9,9 +9,11 @@ public class Alphabet {
     private static StringBuilder builder = new StringBuilder();
     private final List<String> list;
     private final int length;
+    private final int wordLength;
 
-    private Alphabet(int length) {
+    private Alphabet(int length, int wordLength) {
         this.length = length;
+        this.wordLength = wordLength;
         list = new ArrayList<String>();
     }
 
@@ -24,9 +26,9 @@ public class Alphabet {
     }
 
     private boolean increment() {
-        int i = length-1;
+        int i = wordLength-1;
         while(true){
-            if(builder.charAt(i) == 'z'){
+            if(builder.charAt(i) == (97 + length)){
                 if (i == 0) return false;
                 builder.setCharAt(i, 'a');
                 --i;
@@ -37,8 +39,8 @@ public class Alphabet {
         }
     }
 
-    public static List<String> getAllPossibleWords(int length) {
-        Alphabet alpha = new Alphabet(length);
+    public static List<String> getAllPossibleWords(int length, int wordLength) {
+        Alphabet alpha = new Alphabet(length, wordLength);
         alpha.fillList();
         Collections.shuffle(alpha.list);
         return alpha.list;
