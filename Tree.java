@@ -41,7 +41,7 @@ public abstract class Tree<E extends Comparable<E>, N extends Node<E, N>> extend
         }
     }
 
-    public int size(){
+    public int size() {
         return size;
     }
     abstract public boolean remove(Object element);
