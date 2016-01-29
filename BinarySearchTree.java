@@ -20,8 +20,8 @@ public class BinarySearchTree<E extends Comparable<E>> extends Tree<E, SimpleNod
         while (current != null)
         {
             SimpleNode<E> next = current.val.compareTo(element) < 0 ?
-                                current.right :
-                                current.left;
+                                 current.right :
+                                 current.left;
             previous = current;
             current = next;
         }

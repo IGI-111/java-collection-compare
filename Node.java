@@ -1,4 +1,5 @@
-public abstract class Node<E extends Comparable<E>, N extends Node<E, N>> {
+public abstract class Node<E extends Comparable<E>, N extends Node<E, N>>
+{
     public N left;
     public N right;
     public E val;
