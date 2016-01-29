@@ -2,57 +2,57 @@ import java.util.Collection;
 
 public class BinarySearchTree<E extends Comparable<E>> extends Tree<E> implements Collection<E> {
 
-    public class Node<E extends Comparable<E>> implements Tree.Node<E>{
+    public class Node<E extends Comparable<E>> implements Tree.Node<E> {
         private Tree.Node<E> left;
         private Tree.Node<E> right;
         private E val;
-        public Node(Tree.Node<E> left, Tree.Node<E> right, E val){
+        public Node(Tree.Node<E> left, Tree.Node<E> right, E val) {
             this.val = val;
             this.left = left;
             this.right = right;
         }
-        public Tree.Node<E> getLeft(){
+        public Tree.Node<E> getLeft() {
             return left;
         }
-        public Tree.Node<E> getRight(){
+        public Tree.Node<E> getRight() {
             return right;
         }
-        public E getVal(){
+        public E getVal() {
             return val;
         }
-        public void setLeft(Tree.Node<E> left){
+        public void setLeft(Tree.Node<E> left) {
             this.left = left;
         }
-        public void setRight(Tree.Node<E> right){
+        public void setRight(Tree.Node<E> right) {
             this.right = right;
         }
-        public void setVal(E val){
+        public void setVal(E val) {
             this.val = val;
         }
 
     }
 
-    public BinarySearchTree(){
+    public BinarySearchTree() {
         this.root = null;
         this.size = 0;
     }
 
-    public BinarySearchTree(Collection<E> collection){
+    public BinarySearchTree(Collection<E> collection) {
         addAll(collection);
     }
 
-    public boolean add(E element){
+    public boolean add(E element) {
         Tree.Node<E> previous = null;
         Tree.Node<E> current = root;
-        while(current != null){
+        while(current != null) {
             Tree.Node<E> next = current.getVal().compareTo(element) < 0 ?
-                current.getRight() :
-                current.getLeft();
+                                current.getRight() :
+                                current.getLeft();
             previous = current;
             current = next;
         }
 
-        if(previous == null){
+        if(previous == null) {
             root = new Node<E>(null, null, element);
             ++size;
             return true;
@@ -66,7 +66,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Tree<E> implement
         return true;
     }
 
-    public boolean remove(Object element){
+    public boolean remove(Object element) {
         @SuppressWarnings("unchecked")
         Comparable<E> elt = (Comparable<E>) element;
         if (root == null) return false;
@@ -77,7 +77,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Tree<E> implement
             if (elt.compareTo(node.getVal()) < 0) node = node.getLeft();
             else node = node.getRight();
         }
-        if (node != null){
+        if (node != null) {
             if(parent == null)
                 root = removeRoot(node);
             else if(node == parent.getLeft())

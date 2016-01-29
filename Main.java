@@ -26,10 +26,10 @@ public class Main {
                 Benchmark<String> b = new Benchmark<String>(c, dataset);
                 Benchmark<String>.Result result = b.bench();
                 System.out.println(
-                        result.collection +
-                         " Insert: " + result.insertTime +
-                         " Remove: " + result.deleteTime +
-                         " Find: " + result.searchTime);
+                    result.collection +
+                    " Insert: " + result.insertTime +
+                    " Remove: " + result.deleteTime +
+                    " Find: " + result.searchTime);
             }
             System.out.println();
         }
