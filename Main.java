@@ -15,10 +15,10 @@ public class Main {
         toBench.add(new TreeSet<String>()); // AVL
         toBench.add(new HashSet<String>()); // Hash table
         toBench.add(new BinarySearchTree<String>()); // BST
-        // toBench.add(new AVLTree<String>());          // custom AVL 
+        // toBench.add(new AVLTree<String>());          // custom AVL
 
         for (int dataSize = 1; dataSize <= 6; ++dataSize) {
-            for(int alphaLength = 1; alphaLength <= 26; ++alphaLength){
+            for (int alphaLength = 1; alphaLength <= 26; ++alphaLength) {
                 System.out.println("Word length: " + dataSize);
                 System.out.println("Alphabet size: " + alphaLength);
 
@@ -27,8 +27,8 @@ public class Main {
                 for (Collection<String> c : toBench) {
                     Benchmark<String> b = new Benchmark<String>(c, dataset);
                     Benchmark<String>.Result result = b.bench();
-                    System.out.println(result.collection + " Insert: " + result.insertTime + " Remove: "
-                            + result.deleteTime + " Find: " + result.searchTime);
+                    System.out.println(result.collection + " Insert: " + result.insertTime
+                        + " Remove: " + result.deleteTime + " Find: " + result.searchTime);
                 }
                 System.out.println();
             }

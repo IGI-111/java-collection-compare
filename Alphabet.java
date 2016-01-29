@@ -12,7 +12,7 @@ public class Alphabet {
     private int wordLength = 0;
 
     private void fillList() {
-        for (int i = 0 ; i < wordLength ; ++i) builder.append("a");
+        for (int i = 0; i < wordLength; ++i) builder.append("a");
 
         do {
             list.add(builder.toString());
@@ -20,10 +20,11 @@ public class Alphabet {
     }
 
     private boolean increment() {
-        int i = wordLength-1;
-        while(true){
-            if(builder.charAt(i) == ('a' + alphabetLength - 1)){
-                if (i == 0) return false;
+        int i = wordLength - 1;
+        while (true) {
+            if (builder.charAt(i) == ('a' + alphabetLength - 1)) {
+                if (i == 0)
+                    return false;
                 builder.setCharAt(i, 'a');
                 --i;
             } else {
@@ -34,7 +35,7 @@ public class Alphabet {
     }
 
     public static List<String> getAllPossibleWords(int alphabetLength, int wordLength) {
-        if(alphabet == null)
+        if (alphabet == null)
             alphabet = new Alphabet();
         alphabet.alphabetLength = alphabetLength;
         alphabet.wordLength = wordLength;
