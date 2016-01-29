@@ -15,6 +15,7 @@ public class Main {
         toBench.add(new TreeSet<String>()); // AVL
         toBench.add(new HashSet<String>()); // Hash table
         toBench.add(new BinarySearchTree<String>()); // BST
+        toBench.add(new AVLTree<String>());          // custom AVL 
 
         for (int dataSize = 1; dataSize <= 6; ++dataSize) {
             System.out.println("Dataset size: " + dataSize);
