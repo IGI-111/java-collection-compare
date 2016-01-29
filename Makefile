@@ -13,3 +13,6 @@ classes: $(CLASSES:.java=.class)
 clean:
 	$(RM) *.class
 
+format:
+	clang-format -style="{BasedOnStyle: google, IndentWidth: 4}" -i $(CLASSES)
+
