@@ -5,16 +5,11 @@ import java.lang.StringBuilder;
 import java.lang.Character;
 
 public class Alphabet {
-    private static StringBuilder builder = new StringBuilder();
-    private final List<String> list;
-    private final int alphabetLength;
-    private final int wordLength;
-
-    private Alphabet(int alphabetLength, int wordLength) {
-        this.alphabetLength = alphabetLength;
-        this.wordLength = wordLength;
-        list = new ArrayList<String>();
-    }
+    private static Alphabet alphabet = null;
+    private StringBuilder builder = new StringBuilder();
+    private List<String> list = new ArrayList<String>();
+    private int alphabetLength = 0;
+    private int wordLength = 0;
 
     private void fillList() {
         for (int i = 0 ; i < wordLength ; ++i) builder.append("a");
@@ -27,7 +22,7 @@ public class Alphabet {
     private boolean increment() {
         int i = wordLength-1;
         while(true){
-            if(builder.charAt(i) == ('a' + alphabetLength)){
+            if(builder.charAt(i) == ('a' + alphabetLength - 1)){
                 if (i == 0) return false;
                 builder.setCharAt(i, 'a');
                 --i;
@@ -38,10 +33,15 @@ public class Alphabet {
         }
     }
 
-    public static List<String> getAllPossibleWords(int length, int wordLength) {
-        Alphabet alpha = new Alphabet(length, wordLength);
-        alpha.fillList();
-        Collections.shuffle(alpha.list);
-        return alpha.list;
+    public static List<String> getAllPossibleWords(int alphabetLength, int wordLength) {
+        if(alphabet == null)
+            alphabet = new Alphabet();
+        alphabet.alphabetLength = alphabetLength;
+        alphabet.wordLength = wordLength;
+        alphabet.list = new ArrayList<String>();
+        alphabet.builder.setLength(0);
+        alphabet.fillList();
+        Collections.shuffle(alphabet.list);
+        return alphabet.list;
     }
 }
