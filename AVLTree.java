@@ -16,7 +16,8 @@ public class AVLTree<E extends Comparable<E>>
         return addAVL(root, null, true, element);
     }
 
-    private boolean addAVL(WeightedNode<E> r, WeightedNode<E> p, boolean g, E e) {
+    private boolean addAVL(
+        WeightedNode<E> r, WeightedNode<E> p, boolean g, E e) {
         if (r == null) {
             r = new WeightedNode<E>(null, null, e, 0);
             if (p == null)
@@ -42,7 +43,8 @@ public class AVLTree<E extends Comparable<E>>
         }
     }
 
-    private boolean rotateRight(WeightedNode<E> r, WeightedNode<E> p, boolean g) {
+    private boolean rotateRight(
+        WeightedNode<E> r, WeightedNode<E> p, boolean g) {
         // r is the left son of p if g is true
         // r is the right son of p if g is false
         // return true if tree grows up after the rotation
@@ -90,7 +92,8 @@ public class AVLTree<E extends Comparable<E>>
         }
     }
 
-    private boolean rotateLeft(WeightedNode<E> r, WeightedNode<E> p, boolean g) {
+    private boolean rotateLeft(
+        WeightedNode<E> r, WeightedNode<E> p, boolean g) {
         // r is the left son of p if g is true
         // r is the right son of p if g is false
         // return true if tree grows up after the rotation

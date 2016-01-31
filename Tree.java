@@ -70,7 +70,8 @@ public abstract class Tree<E extends Comparable<E>, N extends Node<E, N>>
     }
 
     public boolean contains(Object element) {
-        @SuppressWarnings("unchecked") Comparable<E> elt = (Comparable<E>) element;
+        @SuppressWarnings("unchecked")
+        Comparable<E> elt = (Comparable<E>) element;
         Node<E, N> current = root;
         while (current != null && current.val != elt) {
             if (elt.compareTo(current.val) < 0)

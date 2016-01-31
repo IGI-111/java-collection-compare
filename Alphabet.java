@@ -34,7 +34,8 @@ public class Alphabet {
         }
     }
 
-    public static List<String> getAllPossibleWords(int alphabetLength, int wordLength) {
+    public static List<String> getAllPossibleWords(
+        int alphabetLength, int wordLength) {
         if (alphabet == null)
             alphabet = new Alphabet();
         alphabet.alphabetLength = alphabetLength;

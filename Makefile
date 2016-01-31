@@ -14,5 +14,7 @@ clean:
 	$(RM) *.class
 
 format:
-	clang-format -style="{BasedOnStyle: google, IndentWidth: 4}" -i $(CLASSES)
+	clang-format \
+	-style="{BasedOnStyle: google, IndentWidth: 4, ColumnLimit: 80}" \
+	-i $(CLASSES)
 

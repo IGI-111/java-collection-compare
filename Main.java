@@ -22,13 +22,15 @@ public class Main {
                 System.out.println("Word length: " + dataSize);
                 System.out.println("Alphabet size: " + alphaLength);
 
-                List<String> dataset = Alphabet.getAllPossibleWords(alphaLength, dataSize);
+                List<String> dataset =
+                    Alphabet.getAllPossibleWords(alphaLength, dataSize);
 
                 for (Collection<String> c : toBench) {
                     Benchmark<String> b = new Benchmark<String>(c, dataset);
                     Benchmark<String>.Result result = b.bench();
-                    System.out.println(result.collection + " Insert: " + result.insertTime
-                        + " Remove: " + result.deleteTime + " Find: " + result.searchTime);
+                    System.out.println(result.collection + " Insert: "
+                        + result.insertTime + " Remove: " + result.deleteTime
+                        + " Find: " + result.searchTime);
                 }
                 System.out.println();
             }

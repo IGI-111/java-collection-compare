@@ -25,8 +25,8 @@ public class Benchmark<T> {
         long insertTime = benchInsert();
         long searchTime = benchSearch();
         long deleteTime = benchDelete();
-        return new Result(
-            collection.getClass().getSimpleName(), insertTime, deleteTime, searchTime);
+        return new Result(collection.getClass().getSimpleName(), insertTime,
+            deleteTime, searchTime);
     }
 
     private long time(Runnable fun) {
@@ -41,7 +41,8 @@ public class Benchmark<T> {
         public final long insertTime;
         public final long deleteTime;
         public final long searchTime;
-        Result(String collection, long insertTime, long deleteTime, long searchTime) {
+        Result(String collection, long insertTime, long deleteTime,
+            long searchTime) {
             this.insertTime = insertTime;
             this.deleteTime = deleteTime;
             this.searchTime = searchTime;

@@ -15,7 +15,9 @@ public class BinarySearchTree<E extends Comparable<E>>
         SimpleNode<E> previous = null;
         SimpleNode<E> current = root;
         while (current != null) {
-            SimpleNode<E> next = current.val.compareTo(element) < 0 ? current.right : current.left;
+            SimpleNode<E> next = current.val.compareTo(element) < 0
+                ? current.right
+                : current.left;
             previous = current;
             current = next;
         }
@@ -35,7 +37,8 @@ public class BinarySearchTree<E extends Comparable<E>>
     }
 
     public boolean remove(Object element) {
-        @SuppressWarnings("unchecked") Comparable<E> elt = (Comparable<E>) element;
+        @SuppressWarnings("unchecked")
+        Comparable<E> elt = (Comparable<E>) element;
         if (root == null)
             return false;
         SimpleNode<E> parent = null;
