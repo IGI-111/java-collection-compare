@@ -1,17 +1,25 @@
 JFLAGS = -g
 JC = javac
-.SUFFIXES: .java .class
+.SUFFIXES: .java .class .gnuplot .png
 .java.class:
 	$(JC) $(JFLAGS) $*.java
 
 CLASSES = $(wildcard *.java)
 
+PLOTS = $(wildcard plot/*.gnuplot)
+
 default: classes
+
+all: classes plots
 
 classes: $(CLASSES:.java=.class)
 
+plots:
+	gnuplot $(PLOTS)
+
+
 clean:
-	$(RM) *.class
+	$(RM) *.class out/*.out plot/*.png
 
 format:
 	clang-format \
