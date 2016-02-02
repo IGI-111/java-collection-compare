@@ -15,7 +15,7 @@ public class AVLTree<E extends Comparable<E>>
     public boolean add(E element) {
         if (root == null) {
             // there is no tree
-            root = new WeightedNode<E>(null, null, element, 0);
+            root = new WeightedNode<E>(null, null, element, 1);
             return true;
         }
 
@@ -24,7 +24,7 @@ public class AVLTree<E extends Comparable<E>>
         for (WeightedNode<E> current = root; current != null;) {
             stack.push(current);
             if (current.val.compareTo(element) <= 0) {
-                current = current.left;
+                current = current.right;
             } else {
                 current = current.left;
             }
@@ -34,77 +34,85 @@ public class AVLTree<E extends Comparable<E>>
         WeightedNode<E> insertAt = stack.pop();
         stack.push(insertAt);
         if (insertAt.val.compareTo(element) <= 0) {
-            insertAt.right = new WeightedNode<E>(null, null, element, 0);
+            insertAt.right = new WeightedNode<E>(null, null, element, 1);
         } else {
-            insertAt.left = new WeightedNode<E>(null, null, element, 0);
+            insertAt.left = new WeightedNode<E>(null, null, element, 1);
         }
-        WeightedNode<E> parent = null;
 
-        // botom up pass to update weights
-        WeightedNode<E> current;
-        do {
-            current = stack.pop();
-            current.weight = height(current.left) - height(current.right);
-            System.out.println(current.weight);
-            if (parent == null && (current.weight > 1 || current.weight < 1)) {
-                parent = current;
+        // botom up pass to update heights
+        while(!stack.empty()){
+            WeightedNode<E> current = stack.pop();
+            current.weight = 1 + Math.max(
+                    current.left == null ? 0 : current.left.weight,
+                    current.right == null ? 0 : current.right.weight);
+
+            WeightedNode<E> parent = stack.empty() ? null : stack.pop();
+            if(imbalance(current) == 2){
+                if(imbalance(current.left) == 1) {
+                    rotateRight(current, parent);
+                } else if(imbalance(current.left) == -1) {
+                    rotateLeft(current.left, current);
+                    rotateRight(current, parent);
+                }
+            } else if(imbalance(current) == -2) {
+                if(imbalance(current.right) == 1) {
+                    rotateRight(current.right, current);
+                    rotateLeft(current, parent);
+                } else if(imbalance(current.right) == -1) {
+                    rotateLeft(current, parent);
+                }
             }
-        }while(!stack.empty());
-
-        // no parent means no rebalancing to do
-        if(parent == null)
-            return true;
-
-        // rebalancing the tree
-        // TODO
+            if(parent != null) stack.push(parent);
+        }
+        return true;
     }
 
-    private WeightedNode<E> rotateLeft(WeightedNode<E> node) {
-        System.out.println("Rotate Left");
-        WeightedNode<E> newRoot = node.right;
-        WeightedNode<E> newRootLeft = node;
-        if (newRoot.left != null) {
-            newRootLeft.right = newRoot.left;
+    private void rotateRight(WeightedNode<E> a, WeightedNode<E> parent) {
+        WeightedNode<E> b = a.left;
+        a.left = b.right;
+        b.right = a;
+
+        updateWeight(a);
+        updateWeight(b);
+
+        if(parent == null){
+            root = b;
+        } else {
+            if(a == parent.right)
+                parent.right = b;
+            else
+                parent.left = b;
+            updateWeight(parent);
         }
-        newRoot.left = newRootLeft;
-        return newRoot;
     }
 
-    private WeightedNode<E> rotateRight(WeightedNode<E> node) {
-        System.out.println("Rotate Right");
-        WeightedNode<E> newRoot = node.left;
-        WeightedNode<E> newRootRight = node;
-        if (newRoot.right != null) {
-            newRootRight.left = newRoot.right;
+    private void rotateLeft(WeightedNode<E> a, WeightedNode<E> parent) {
+        WeightedNode<E> b = a.right;
+        a.right = b.left;
+        b.left = a;
+
+        updateWeight(a);
+        updateWeight(b);
+
+        if(parent == null){
+            root = b;
+        } else {
+            if(a == parent.right)
+                parent.right = b;
+            else
+                parent.left = b;
+            updateWeight(parent);
         }
-        newRoot.right = newRootRight;
-        return newRoot;
     }
 
-    private int height(WeightedNode<E> node){
-        if (node == null) return 0;
-        Stack<WeightedNode<E>> stack = new Stack<WeightedNode<E>>();
-        stack.push(node);
-        int maxDepth = 0;
-        WeightedNode<E> prev = null;
-        while (!stack.empty()) {
-            WeightedNode<E> curr = stack.peek();
-            if (prev == null || prev.left == curr || prev.right == curr) {
-                if (curr.left != null)
-                    stack.push(curr.left);
-                else if (curr.right != null)
-                    stack.push(curr.right);
-            } else if (curr.left == prev) {
-                if (curr.right != null)
-                    stack.push(curr.right);
-            } else {
-                stack.pop();
-            }
-            prev = curr;
-            if (stack.size() > maxDepth)
-                maxDepth = stack.size();
-        }
-        return maxDepth;
+    private void updateWeight(WeightedNode<E> node){
+        node.weight = 1 + Math.max(
+                node.left == null ? 0 : node.left.weight,
+                node.right == null ? 0 : node.right.weight);
+    }
+
+    private int imbalance(WeightedNode<E> node){
+        return (node.left == null ? 0 : node.left.weight) - (node.right == null ? 0 :node.right.weight);
     }
 
 
@@ -112,27 +120,64 @@ public class AVLTree<E extends Comparable<E>>
         // TODO
         return false;
     }
+
     public static void main(String[] args) {
         AVLTree<Integer> tree = new AVLTree<Integer>();
-        tree.add(3);
-        System.out.println(tree.root);
-        System.out.println(tree.root.left + " " + tree.root.right);
-        System.out.println();
         tree.add(1);
-        System.out.println(tree.root);
-        System.out.println(tree.root.left + " " + tree.root.right);
+        System.out.println(tree.root.val);
+        System.out.println();
+        tree.add(3);
+        System.out.println(tree.root.val);
+        System.out.println(tree.root.left + " " + tree.root.right.val);
+        System.out.println();
+        tree.add(5);
+        System.out.println(tree.root.val);
+        System.out.println(tree.root.left.val + " " + tree.root.right.val);
         System.out.println();
         tree.add(2);
-        System.out.println(tree.root);
-        System.out.println(tree.root.left + " " + tree.root.right);
-        System.out.println(tree.root.left.left + " " + tree.root.left.right);
+        System.out.println(tree.root.val);
+        System.out.println(tree.root.left.val + " " + tree.root.right.val);
+        System.out.println(
+                tree.root.left.left + " " +
+                tree.root.left.right.val + " " +
+                tree.root.right.left + " " +
+                tree.root.right.right);
         System.out.println();
-        tree.add(0);
-        System.out.println(tree.root);
-        System.out.println(tree.root.left + " " + tree.root.right);
-        System.out.println(tree.root.left.left + " " + tree.root.left.right);
-        System.out.println(tree.root.left.left.left + " " + tree.root.left.left.right);
+        tree.add(6);
+        System.out.println(tree.root.val);
+        System.out.println(tree.root.left.val + " " + tree.root.right.val);
+        System.out.println(
+                tree.root.left.left + " " +
+                tree.root.left.right.val + " " +
+                tree.root.right.left + " " +
+                tree.root.right.right.val);
+        System.out.println();
+        tree.add(4);
+        System.out.println(tree.root.val);
+        System.out.println(tree.root.left.val + " " + tree.root.right.val);
+        System.out.println(
+                tree.root.left.left + " " +
+                tree.root.left.right.val + " " +
+                tree.root.right.left.val + " " +
+                tree.root.right.right.val);
+        System.out.println();
+        tree.add(7);
+        System.out.println(tree.root.val);
+        System.out.println(tree.root.left.val + " " + tree.root.right.val);
+        System.out.println(
+                tree.root.left.left + " " +
+                tree.root.left.right.val + " " +
+                tree.root.right.left.val + " " +
+                tree.root.right.right.val);
+        System.out.println();
+        tree.add(8);
+        System.out.println(tree.root.val);
+        System.out.println(tree.root.left.val + " " + tree.root.right.val);
+        System.out.println(
+                tree.root.left.left + " " +
+                tree.root.left.right.val + " " +
+                tree.root.right.left.val + " " +
+                tree.root.right.right.val);
         System.out.println();
     }
-
 }
